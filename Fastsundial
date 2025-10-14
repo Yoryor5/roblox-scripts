@@ -1,0 +1,26 @@
+--[[
+  Fast Sundial Script for Roblox "99 Nights in the Forest" TAS
+  This script speeds up the sundial/day-night cycle.
+  Place this in the appropriate Script or LocalScript.
+--]]
+
+local SUNDIAL_SPEED_MULTIPLIER = 5 -- 5x faster; change as needed
+
+-- Assuming "Sundial" is an object or module controlling time
+-- Replace this with your actual reference
+local Sundial = workspace:FindFirstChild("Sundial")
+
+if Sundial and Sundial:FindFirstChild("TimeValue") then
+    local timeValue = Sundial.TimeValue
+    local RunService = game:GetService("RunService")
+
+    RunService.Heartbeat:Connect(function(dt)
+        -- Increase time value at a faster rate
+        timeValue.Value = timeValue.Value + dt * SUNDIAL_SPEED_MULTIPLIER
+        if timeValue.Value > 24 then
+            timeValue.Value = timeValue.Value - 24
+        end
+    end)
+else
+    warn("Sundial or TimeValue not found. Please check object names and hierarchy.")
+end
